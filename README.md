@@ -48,7 +48,7 @@ php artisan db:seed
 ・MySQL8.0.33
 
 ## ER図
-
+![ER図](./diagram.png)
 
 ## URL
 ・開発環境：http://localhost:86/
