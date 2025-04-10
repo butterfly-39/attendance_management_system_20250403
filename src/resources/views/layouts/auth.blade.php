@@ -7,14 +7,13 @@
     <link rel="stylesheet" href="{{ asset('css/base/common.css') }}">
     @yield('css')
 </head>
+
 <body>
-    <header>
-        <h1 class="header__heading">
-            <a href="/">
-                <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
-            </a>
-        </h1>
-    </header>
+    <h1 class="header__heading">
+        <a href="/">
+            <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
+        </a>
+    </h1>
     <main>
         @yield('content')
     </main>
