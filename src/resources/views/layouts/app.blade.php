@@ -11,9 +11,28 @@
     <header>
         <h1 class="header__heading">
             <a href="/">
-                <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
+                <img src="{{ asset('images/logo/logo.svg') }}" alt="COACHTECH" class="header__logo">
             </a>
         </h1>
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="/attendance" class="header__nav-link">勤怠</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/stamp_correction_request/list" class="header__nav-link">申請</a>
+                </li>
+                <li class="header__nav-item">
+                    <form action="/logout" method="POST" class="header__logout-form">
+                        @csrf
+                        <button type="submit" class="header__nav-link header__logout-button">ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
     </header>
     <main>
         @yield('content')
