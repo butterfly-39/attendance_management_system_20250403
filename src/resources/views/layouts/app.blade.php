@@ -11,7 +11,7 @@
     <header>
         <h1 class="header__heading">
             <a href="/">
-                <img src="{{ asset('images/logo/logo.svg') }}" alt="COACHTECH" class="header__logo">
+                <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
             </a>
         </h1>
         <nav class="header__nav">
