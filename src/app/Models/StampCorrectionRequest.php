@@ -28,5 +28,8 @@ class StampCorrectionRequest extends Model
         return $this->belongsTo(Attendance::class);
     }
 
-    
+    public function breakCorrectionRequests()
+    {
+        return $this->hasOne(BreakCorrectionRequest::class);
+    }
 }
