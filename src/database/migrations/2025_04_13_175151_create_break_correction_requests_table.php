@@ -17,8 +17,8 @@ class CreateBreakCorrectionRequestsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('stamp_correction_request_id')->constrained()->cascadeOnDelete();
-            $table->datetime('break_start_time');
-            $table->datetime('break_end_time');
+            $table->datetime('break_start_time')->nullable();
+            $table->datetime('break_end_time')->nullable();
             $table->text('note');
             $table->enum('status', ['承認待ち', '承認済み']);
             $table->timestamps();
