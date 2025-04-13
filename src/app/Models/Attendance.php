@@ -27,14 +27,9 @@ class Attendance extends Model
         return $this->hasMany(StampCorrectionRequest::class);
     }
 
-    public function breakTime()
+    public function breakTimes()
     {
-        return $this->hasOne(BreakTime::class);
-    }
-
-    public function stampCorrectionRequest()
-    {
-        return $this->hasOne(StampCorrectionRequest::class);
+        return $this->hasMany(BreakTime::class);
     }
 
 }
