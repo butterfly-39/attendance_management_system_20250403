@@ -13,4 +13,6 @@ use App\Http\Controllers\AttendanceController;
 |
 */
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    Route::get('/', [AttendanceController::class, 'index']);
+});
