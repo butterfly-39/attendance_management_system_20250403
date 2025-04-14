@@ -1,0 +1,38 @@
+body {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.header {
+    background-color: black;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__heading {
+    margin: 0;
+    padding: 5px;
+}
+
+.header__logo {
+    height: 30px;
+    margin: 0;
+}
+
+.header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 0 20px;
+}
+
+.header__nav-link {
+    color: white;
+    text-decoration: none;
+    border: none;
+    background-color: black;
+    font-size: 16px;
+    font-weight: bold;
+}

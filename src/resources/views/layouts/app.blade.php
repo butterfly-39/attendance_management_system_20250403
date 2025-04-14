@@ -8,7 +8,7 @@
     @yield('css')
 </head>
 <body>
-    <header>
+    <header class="header">
         <h1 class="header__heading">
             <a href="/login">
                 <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
