@@ -14,8 +14,7 @@ class AddColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('password_confirmation');
-            $table->boolean('is_admin');
+            $table->boolean('is_admin')->default(false);
         });
     }
 
@@ -27,7 +26,6 @@ class AddColumnsToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('password_confirmation');
             $table->dropColumn('is_admin');
         });
     }

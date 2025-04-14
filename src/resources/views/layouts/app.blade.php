@@ -10,7 +10,7 @@
 <body>
     <header>
         <h1 class="header__heading">
-            <a href="/">
+            <a href="/login">
                 <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
             </a>
         </h1>
