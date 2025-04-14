@@ -1,0 +1,98 @@
+.login-form {
+    max-width: 750px;
+    margin: 80px auto;
+}
+
+.login-form__heading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-form__inner {
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.login-form__group {
+    margin-bottom: 24px;
+}
+
+.login-form__label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.login-form__input {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #c3c2c2;
+    border-radius: 3px;
+    box-sizing: border-box;
+    height: 50px;
+}
+
+.login-form__error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.login-form__btn-group {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.login-form__login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.login-form__register-btn {
+    color: #0066CC;
+    text-decoration: none;
+}
+
+.login-form__register-btn:hover {
+    text-decoration: underline;
+}
+
+/* PC (1400-1540px) */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .login-form {
+        max-width: 700px;
+        margin: 60px auto;
+    }
+}
+
+/* タブレット (768-850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .login-form {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .login-form__heading {
+        font-size: 22px;
+        margin-bottom: 30px;
+    }
+
+    .login-form__group {
+        margin-bottom: 20px;
+    }
+
+    .login-form__btn-group {
+        margin-top: 30px;
+    }
+}

@@ -12,7 +12,7 @@
 
 .register-form__inner {
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
 }
 
 .register-form__group {
@@ -27,9 +27,11 @@
 
 .register-form__input {
     width: 100%;
+    max-width: 100%;
     padding: 10px;
     border: 1px solid #c3c2c2;
     border-radius: 3px;
+    box-sizing: border-box;
 }
 
 .register-form__error-message {
