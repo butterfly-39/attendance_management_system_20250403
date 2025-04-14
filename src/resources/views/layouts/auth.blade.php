@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COACHTECH</title>
-    <link rel="stylesheet" href="{{ asset('css/base/common.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/base/auth.css') }}">
     @yield('css')
 </head>
 
 <body>
-    <h1 class="header__heading">
-        <a href="/">
-            <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
-        </a>
-    </h1>
+    <header class="header">
+        <h1 class="header__heading">
+            <a href="/login">
+                <img src="{{ asset('images/logo.svg') }}" alt="COACHTECH" class="header__logo">
+            </a>
+        </h1>
+    </header>
     <main>
         @yield('content')
     </main>
