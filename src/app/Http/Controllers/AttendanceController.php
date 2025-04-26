@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use App\Models\BreakTime;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
@@ -103,10 +104,11 @@ class AttendanceController extends Controller
         ]);
     }
 
-    // 勤怠詳細画面用のメソッドを追加
     public function show($id)
     {
-        $attendance = Auth::user()->attendances()->findOrFail($id);
-        return view('attendance.show', compact('attendance'));
+        $attendance = Attendance::with(['user', 'breakTimes'])->findOrFail($id);
+        $breakTimes = $attendance->breakTimes()->first();
+
+        return view('attendance.show', compact('attendance', 'breakTimes'));
     }
 }
