@@ -20,6 +20,10 @@ use Carbon\Carbon;
             <p>備考</p>
             <textarea class="attendance__detail-text">{{ $attendance->note }}</textarea>
         </div>
+        <div class="attendance__button-container">
+            <button class="attendance__button">修正</button>
+        </div>
     </div>
 </div>
 @endsection
+
