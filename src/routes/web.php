@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\StampCorrectionRequestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,5 +18,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
     Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
+    Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
 });
