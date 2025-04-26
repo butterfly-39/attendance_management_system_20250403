@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -79,5 +80,33 @@ class AttendanceController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function list(Request $request)
+    {
+        $user = Auth::user();
+        
+        // 表示する月を設定（デフォルトは現在の月）
+        $currentDate = $request->input('date') 
+            ? Carbon::parse($request->input('date')) 
+            : Carbon::now();
+        
+        $attendances = Attendance::where('user_id', $user->id)
+            ->whereYear('date', $currentDate->year)
+            ->whereMonth('date', $currentDate->month)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return view('attendance.list', [
+            'attendances' => $attendances,
+            'currentDate' => $currentDate
+        ]);
+    }
+
+    // 勤怠詳細画面用のメソッドを追加
+    public function show($id)
+    {
+        $attendance = Auth::user()->attendances()->findOrFail($id);
+        return view('attendance.show', compact('attendance'));
     }
 }
