@@ -16,7 +16,10 @@ use Carbon\Carbon;
         {{-- 月選択ナビゲーション --}}
         <div class="attendance__month-nav">
             <a href="{{ route('attendance.list', ['date' => $currentDate->copy()->subMonth()->format('Y-m')]) }}" class="btn btn-secondary">← 前月</a>
-            <span class="current-month">{{ $currentDate->format('Y年n月') }}</span>
+            <span class="current-month">
+                <i class="fas fa-calendar-alt"></i>
+                {{ $currentDate->format('Y/m') }}
+            </span>
             <a href="{{ route('attendance.list', ['date' => $currentDate->copy()->addMonth()->format('Y-m')]) }}" class="btn btn-secondary">翌月 →</a>
         </div>
 
@@ -47,4 +50,22 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    flatpickr('.current-month', {
+        locale: 'ja',
+        dateFormat: 'Y/m',
+        defaultDate: '{{ $currentDate->format("Y/m") }}',
+        enableTime: false,
+        onChange: function(selectedDates, dateStr) {
+            const date = selectedDates[0];
+            const formattedDate = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+            window.location.href = '/attendance/list?date=' + formattedDate;
+        }
+    });
+});
+</script>
 @endsection
