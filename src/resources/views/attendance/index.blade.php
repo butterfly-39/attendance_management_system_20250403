@@ -29,16 +29,18 @@
                     <button class="attendance__button attendance__button--in" type="submit">出勤</button>
                 </form>
             @elseif($attendance->status === '出勤中')
-                <form class="attendance__button-form" action="/attendance" method="post">
-                    @csrf
-                    <input type="hidden" name="action" value="clock_out">
-                    <button class="attendance__button attendance__button--break-in" type="submit">退勤</button>
-                </form>
-                <form class="attendance__button-form" action="/attendance" method="post">
-                    @csrf
-                    <input type="hidden" name="action" value="break_start">
-                    <button class="attendance__button attendance__button--out" type="submit">休憩入</button>
-                </form>
+                <div class="attendance__button-container">
+                    <form class="attendance__button-form" action="/attendance" method="post">
+                        @csrf
+                        <input type="hidden" name="action" value="clock_out">
+                        <button class="attendance__button attendance__button--break-in" type="submit">退勤</button>
+                    </form>
+                    <form class="attendance__button-form" action="/attendance" method="post">
+                        @csrf
+                        <input type="hidden" name="action" value="break_start">
+                        <button class="attendance__button attendance__button--out" type="submit">休憩入</button>
+                    </form>
+                </div>
             @elseif($attendance->status === '休憩中')
                 <form class="attendance__button-form" action="/attendance" method="post">
                     @csrf

@@ -52,7 +52,17 @@
     align-items: center;
 }
 
-.attendance__button {
+.attendance__button-form {
+    margin: 0;
+}
+
+.attendance__button-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.attendance__button--in, .attendance__button--break-in {
     width: 150px;
     padding: 10px 5px;
     font-size: 18px;
@@ -62,6 +72,20 @@
     border-radius: 13px;
     cursor: pointer;
     transition: opacity 0.3s;
+    font-weight: bold;
+}
+
+.attendance__button--out, .attendance__button--break-out {
+    width: 150px;
+    padding: 10px 5px;
+    font-size: 18px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    font-weight: bold;
 }
 
 .attendance__button:hover {
