@@ -68,6 +68,10 @@ body {
     border-bottom: 3px solid #dee2e6;
 }
 
+.attendance__item-header, .attendance__time {
+    font-weight: bold;
+}
+
 .attendance__item {
     color: rgb(112, 112, 112);
     display: grid;
