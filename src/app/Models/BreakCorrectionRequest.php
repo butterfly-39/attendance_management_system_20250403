@@ -17,6 +17,6 @@ class BreakCorrectionRequest extends Model
 
     public function stampCorrectionRequest()
     {
-        return $this->hasOne(StampCorrectionRequest::class);
+        return $this->belongsTo(StampCorrectionRequest::class);
     }
 }

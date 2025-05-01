@@ -30,6 +30,6 @@ class StampCorrectionRequest extends Model
 
     public function breakCorrectionRequests()
     {
-        return $this->hasOne(BreakCorrectionRequest::class);
+        return $this->hasMany(BreakCorrectionRequest::class);
     }
 }
