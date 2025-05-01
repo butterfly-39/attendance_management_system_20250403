@@ -20,5 +20,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
-    Route::post('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 });

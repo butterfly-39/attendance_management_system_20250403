@@ -7,6 +7,9 @@ use App\Models\Attendance;
 use Carbon\Carbon;
 use App\Models\BreakTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AttendanceRequest;
+use App\Models\StampCorrectionRequest;
 
 class AttendanceController extends Controller
 {
@@ -112,10 +115,38 @@ class AttendanceController extends Controller
         return view('attendance.show', compact('attendance', 'breakTimes'));
     }
 
-    public function update(AttendanceRequest $request, $id)
+    public function update(AttendanceRequest $request, Attendance $attendance)
     {
-        $attendance = Attendance::findOrFail($id);
-        $attendance->update($request->validated());
-        return redirect()->route('attendance.show', $id);
+        DB::transaction(function () use ($request, $attendance) {
+            // 勤怠情報を更新
+            $attendance->update([
+                'clock_in_time' => $request->clock_in_time,
+                'clock_out_time' => $request->clock_out_time,
+                'note' => $request->note,
+                'status' => 'pending', // 承認待ちステータス
+            ]);
+
+            // 既存の休憩時間を削除
+            $attendance->breakTimes()->delete();
+
+            // 新しい休憩時間を登録
+            foreach ($request->break_start_time as $key => $start_time) {
+                if ($start_time && $request->break_end_time[$key]) {
+                    $attendance->breakTimes()->create([
+                        'break_start_time' => $start_time,
+                        'break_end_time' => $request->break_end_time[$key],
+                    ]);
+                }
+            }
+
+            // 修正申請を作成
+            StampCorrectionRequest::create([
+                'attendance_id' => $attendance->id,
+                'user_id' => auth()->id(),
+                'status' => 'pending',
+            ]);
+        });
+
+        return redirect()->route('attendance.index');
     }
 }
