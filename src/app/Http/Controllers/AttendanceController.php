@@ -111,4 +111,11 @@ class AttendanceController extends Controller
 
         return view('attendance.show', compact('attendance', 'breakTimes'));
     }
+
+    public function update(AttendanceRequest $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->update($request->validated());
+        return redirect()->route('attendance.show', $id);
+    }
 }
