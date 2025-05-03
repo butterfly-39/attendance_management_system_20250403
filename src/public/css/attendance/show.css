@@ -131,3 +131,10 @@ input[type="time"]::-moz-calendar-picker-indicator {
     font-size: 14px;
     margin-top: 5px;
 }
+
+.pending-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: right;
+}

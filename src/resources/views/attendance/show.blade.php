@@ -13,7 +13,7 @@ use Carbon\Carbon;
     <div class="attendance__content">
         <h2 class="attendance__heading">勤怠詳細</h2>
 
-        <form action="{{ route('attendance.update', ['id' => $attendance->id]) }}" method="POST">
+        <form action="{{ route('attendance.update', ['id' => $attendance->id]) }}" method="POST" class="{{ $pendingRequest ? 'disabled-form' : '' }}">
             @csrf
             @method('PUT')
             <div class="attendance__detail">
@@ -75,10 +75,18 @@ use Carbon\Carbon;
                     </div>
                 </div>
             </div>
-            <div class="attendance__button-container">
-                <button type="submit" class="attendance__button">修正</button>
-            </div>
+            @if(!$pendingRequest)
+                <div class="attendance__button-container">
+                    <button type="submit" class="attendance__button">修正</button>
+                </div>
+            @endif
         </form>
+
+        @if($pendingRequest)
+            <div class="pending-message">
+                *承認待ちのため修正はできません。
+            </div>
+        @endif
     </div>
 </div>
 @endsection

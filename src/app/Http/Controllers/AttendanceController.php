@@ -112,8 +112,13 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::with(['user', 'breakTimes'])->findOrFail($id);
         $breakTimes = $attendance->breakTimes()->first();
+        
+        // 承認待ちの申請があるかチェック
+        $pendingRequest = StampCorrectionRequest::where('attendance_id', $id)
+            ->where('status', '承認待ち')
+            ->exists();
 
-        return view('attendance.show', compact('attendance', 'breakTimes'));
+        return view('attendance.show', compact('attendance', 'breakTimes', 'pendingRequest'));
     }
 
     public function update(AttendanceRequest $request, $id)
