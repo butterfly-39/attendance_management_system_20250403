@@ -122,18 +122,8 @@ class AttendanceController extends Controller
 
         DB::transaction(function () use ($request, $attendance) {
             $date = Carbon::parse($attendance->date)->format('Y-m-d');
-            
-            // 勤怠情報を更新
-            $attendance->update([
-                'clock_in_time' => $date . ' ' . $request->clock_in_time,
-                'clock_out_time' => $date . ' ' . $request->clock_out_time,
-                'note' => $request->note
-            ]);
 
-            // 既存の休憩時間を削除
-            $attendance->breakTimes()->delete();
-
-            // まず、StampCorrectionRequestを作成
+            // StampCorrectionRequestを作成
             $stampCorrectionRequest = StampCorrectionRequest::create([
                 'attendance_id' => $attendance->id,
                 'user_id' => auth()->id(),
@@ -143,15 +133,13 @@ class AttendanceController extends Controller
                 'note' => $request->note
             ]);
 
-            // 新しい休憩時間を登録
-            foreach ($request->break_start_time as $key => $start_time) {
-                if ($start_time && $request->break_end_time[$key]) {
-                    // 勤怠の休憩時間を作成
-                    $attendance->breakTimes()->create([
-                        'break_start_time' => $date . ' ' . $start_time,
-                        'break_end_time' => $date . ' ' . $request->break_end_time[$key],
-                        'attendance_id' => $attendance->id
-                    ]);
+            // 休憩時間の修正申請を作成
+            if ($request->break_start_time) {
+                foreach ($request->break_start_time as $key => $start_time) {
+                    // 空の休憩時間エントリーをスキップ
+                    if (!$start_time || !$request->break_end_time[$key]) {
+                        continue;
+                    }
 
                     // 休憩時間の修正申請を作成
                     BreakCorrectionRequest::create([
