@@ -24,10 +24,10 @@ class AttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'clock_in_time' => 'required|date_format:H:i',
-            'clock_out_time' => 'required|date_format:H:i|after:clock_in_time',
-            'break_start_time.*' => 'required|date_format:H:i|after_or_equal:clock_in_time|before:clock_out_time',
-            'break_end_time.*' => 'required|date_format:H:i|after:break_start_time.*|before_or_equal:clock_out_time',
+            'clock_in_time' => 'nullable|date_format:H:i',
+            'clock_out_time' => 'nullable|date_format:H:i|after:clock_in_time',
+            'break_start_time.*' => 'nullable|date_format:H:i|after_or_equal:clock_in_time|before:clock_out_time',
+            'break_end_time.*' => 'nullable|date_format:H:i|after:break_start_time.*|before_or_equal:clock_out_time',
             'note' => 'required|string|max:255',
         ];
     }
