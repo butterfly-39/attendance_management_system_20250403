@@ -138,20 +138,37 @@ class AttendanceController extends Controller
                 'note' => $request->note
             ]);
 
-            // 休憩時間の修正申請を作成
+            // 既存の休憩時間と比較して変更があるかチェック
             if ($request->break_start_time) {
+                $existingBreaks = $attendance->breakTimes->toArray();
+                
                 foreach ($request->break_start_time as $key => $start_time) {
                     // 空の休憩時間エントリーをスキップ
-                    if (!$start_time || !$request->break_end_time[$key]) {
+                    if (!$start_time || !isset($request->break_end_time[$key]) || !$request->break_end_time[$key]) {
                         continue;
                     }
 
-                    // 休憩時間の修正申請を作成
-                    BreakCorrectionRequest::create([
-                        'stamp_correction_request_id' => $stampCorrectionRequest->id,
-                        'break_start_time' => $date . ' ' . $start_time,
-                        'break_end_time' => $date . ' ' . $request->break_end_time[$key]
-                    ]);
+                    $newBreakStart = $date . ' ' . $start_time;
+                    $newBreakEnd = $date . ' ' . $request->break_end_time[$key];
+
+                    // 既存の休憩時間と異なる場合のみ修正申請を作成
+                    $isModified = true;
+                    if (isset($existingBreaks[$key])) {
+                        $existingStart = Carbon::parse($existingBreaks[$key]['break_start_time'])->format('Y-m-d H:i');
+                        $existingEnd = Carbon::parse($existingBreaks[$key]['break_end_time'])->format('Y-m-d H:i');
+                        
+                        if ($existingStart === $newBreakStart && $existingEnd === $newBreakEnd) {
+                            $isModified = false;
+                        }
+                    }
+
+                    if ($isModified) {
+                        BreakCorrectionRequest::create([
+                            'stamp_correction_request_id' => $stampCorrectionRequest->id,
+                            'break_start_time' => $newBreakStart,
+                            'break_end_time' => $newBreakEnd
+                        ]);
+                    }
                 }
             }
         });
