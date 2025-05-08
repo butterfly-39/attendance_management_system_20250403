@@ -17,6 +17,8 @@ use App\Http\Requests\LoginRequest;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
+use Illuminate\Http\RedirectResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,17 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
+        // 登録後のレスポンスをカスタマイズ
+        $this->app->singleton(RegisterResponse::class, function () {
+            return new class implements RegisterResponse {
+                public function toResponse($request): RedirectResponse
+                {
+                    // 自動ログインを防ぎ、loginページへリダイレクト
+                    auth()->logout();
+                    return redirect('/login');
+                }
+            };
+        });
         // ログイン後のリダイレクト処理を設定
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
