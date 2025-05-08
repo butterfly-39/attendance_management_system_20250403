@@ -20,15 +20,27 @@
         </h1>
         <nav class="header__nav">
             <ul class="header__nav-list">
-                <li class="header__nav-item">
-                    <a href="/attendance" class="header__nav-link">勤怠</a>
-                </li>
-                <li class="header__nav-item">
-                    <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
-                </li>
-                <li class="header__nav-item">
-                    <a href="/stamp_correction_request/list" class="header__nav-link">申請</a>
-                </li>
+                @if(auth()->user()->is_admin)
+                    <li class="header__nav-item">
+                        <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/staff/list" class="header__nav-link">スタッフ一覧</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/stamp_correction_request/list" class="header__nav-link">申請一覧</a>
+                    </li>
+                @else
+                    <li class="header__nav-item">
+                        <a href="/attendance" class="header__nav-link">勤怠</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/stamp_correction_request/list" class="header__nav-link">申請</a>
+                    </li>
+                @endif
                 <li class="header__nav-item">
                     <form action="/logout" method="POST" class="header__logout-form">
                         @csrf
