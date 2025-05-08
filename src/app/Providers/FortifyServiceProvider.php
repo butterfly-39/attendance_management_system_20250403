@@ -15,6 +15,8 @@ use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 use App\Http\Requests\LoginRequest;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,9 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
+            if (request()->is('admin/login')) {
+                return view('admin.auth.login');
+            }
             return view('auth.login');
         });
 
@@ -47,12 +52,22 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-        // ログアウト後のリダイレクト先を設定
+        // ログイン後のリダイレクト処理を設定
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                return auth()->user()->is_admin
+                    ? redirect()->route('admin.attendance.list')
+                    : redirect()->route('attendance.list');
+            }
+        });
+
+        // ログアウト後のリダイレクト処理を設定
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
-        public function toResponse($request)
-        {
-            return redirect('/login');
-        }
+            public function toResponse($request)
+            {
+                return redirect('/login');
+            }
         });
 
         $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);

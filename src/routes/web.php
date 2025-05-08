@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampCorrectionRequestController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +17,7 @@ use App\Http\Controllers\StampCorrectionRequestController;
 |
 */
 
+// 一般ユーザー用ルート
 Route::middleware('auth')->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
@@ -22,3 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 });
+
+// 管理者ログイン画面
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+});
+
+// 管理者用ダッシュボード等
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/attendance/list', [AdminAttendanceController::class, 'list'])->name('attendance.list');
+});
+
+
