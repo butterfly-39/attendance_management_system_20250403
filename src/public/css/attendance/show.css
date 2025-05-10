@@ -54,8 +54,7 @@
     margin: 0 10px;
 }
 
-.attendance__time--in,
-.attendance__time--out {
+.attendance__time {
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-left: -20px;
@@ -75,6 +74,14 @@
 
 .attendance__time--out {
     margin-left: 20px;
+}
+
+.attendance__time--in-pending {
+    margin-right: 50px;
+}
+
+.attendance__time--out-pending {
+    margin-left: 50px;
 }
 
 .attendance__textarea {

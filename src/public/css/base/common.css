@@ -35,5 +35,8 @@ body {
     border: none;
     background-color: black;
     font-size: 16px;
+}
+
+.header__nav-link--bold {
     font-weight: bold;
 }

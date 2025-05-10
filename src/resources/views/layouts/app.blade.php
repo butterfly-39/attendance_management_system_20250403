@@ -22,29 +22,38 @@
             <ul class="header__nav-list">
                 @if(auth()->user()->is_admin)
                     <li class="header__nav-item">
-                        <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
+                        <a href="/attendance/list" class="header__nav-link header__nav-link--bold">勤怠一覧</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="/staff/list" class="header__nav-link">スタッフ一覧</a>
+                        <a href="/staff/list" class="header__nav-link header__nav-link--bold">スタッフ一覧</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="/stamp_correction_request/list" class="header__nav-link">申請一覧</a>
+                        <a href="/stamp_correction_request/list" class="header__nav-link header__nav-link--bold">申請一覧</a>
                     </li>
                 @else
-                    <li class="header__nav-item">
-                        <a href="/attendance" class="header__nav-link">勤怠</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/attendance/list" class="header__nav-link">勤怠一覧</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/stamp_correction_request/list" class="header__nav-link">申請</a>
-                    </li>
+                    @if(auth()->user()->attendance && auth()->user()->attendance->status === '退勤済')
+                        <li class="header__nav-item">
+                            <a href="/attendance/list" class="header__nav-link">今月の出勤一覧</a>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="/stamp_correction_request/list" class="header__nav-link">申請一覧</a>
+                        </li>
+                    @else
+                        <li class="header__nav-item">
+                            <a href="/attendance" class="header__nav-link header__nav-link--bold">勤怠</a>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="/attendance/list" class="header__nav-link header__nav-link--bold">勤怠一覧</a>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="/stamp_correction_request/list" class="header__nav-link header__nav-link--bold">申請</a>
+                        </li>
+                    @endif
                 @endif
                 <li class="header__nav-item">
                     <form action="/logout" method="POST" class="header__logout-form">
                         @csrf
-                        <button type="submit" class="header__nav-link header__logout-button">ログアウト</button>
+                        <button type="submit" class="header__nav-link header__logout-button header__nav-link--bold">ログアウト</button>
                     </form>
                 </li>
             </ul>
