@@ -33,7 +33,7 @@ use Carbon\Carbon;
                     <div class="attendance__value">
                         <input type="time" class="attendance__time attendance__time--in" value="{{ Carbon::parse($attendance->clock_in_time)->format('H:i') }}" name="clock_in_time">
                         <span class="attendance__separator">〜</span>
-                        <input type="time" class="attendance__time attendance__time--out" value="{{ Carbon::parse($attendance->clock_out_time)->format('H:i') }}" name="clock_out_time">
+                        <input type="time" class="attendance__time attendance__time--out" value="{{ $attendance->clock_out_time ? Carbon::parse($attendance->clock_out_time)->format('H:i') : '' }}" name="clock_out_time">
                         @error('clock_in_time')
                             <div class="error-message">{{ $message }}</div>
                         @enderror
@@ -49,7 +49,7 @@ use Carbon\Carbon;
                         <div class="break-time-row">
                             <input type="time" class="attendance__time attendance__time--in" value="{{ Carbon::parse($break->break_start_time)->format('H:i') }}" name="break_start_time[]">
                             <span class="attendance__separator">〜</span>
-                            <input type="time" class="attendance__time attendance__time--out" value="{{ Carbon::parse($break->break_end_time)->format('H:i') }}" name="break_end_time[]">
+                            <input type="time" class="attendance__time attendance__time--out" value="{{ $break->break_end_time ? Carbon::parse($break->break_end_time)->format('H:i') : '' }}" name="break_end_time[]">
                             @error('break_start_time.' . $index)
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
