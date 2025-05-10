@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StampCorrectionRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StampCorrectionRequestController extends Controller
 {
@@ -11,7 +12,9 @@ class StampCorrectionRequestController extends Controller
     {
         $status = $request->get('status', '承認待ち');
 
-        $stampCorrections = StampCorrectionRequest::where('status', $status)->get();
+        $stampCorrections = StampCorrectionRequest::where('status', $status)
+            ->where('user_id', Auth::id())
+            ->get();
 
         return view('stamp-correction.list', compact('stampCorrections'));
     }
