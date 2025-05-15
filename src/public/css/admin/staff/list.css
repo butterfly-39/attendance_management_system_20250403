@@ -1,0 +1,90 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.staff {
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.staff__content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.staff__heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 8px solid #333;
+}
+
+.staff__list {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border-collapse: collapse;
+    margin-top: 90px;
+}
+
+.staff__list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.staff__list th {
+    background-color: white;
+    padding: 12px;
+    text-align: center;
+    border-bottom: 3px solid #dee2e6;
+}
+
+.staff__item-header {
+    padding: 0 110px;
+}
+
+.staff__item {
+    color: rgb(112, 112, 112);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 3px solid #dee2e6;
+    background-color: white;
+    font-weight: bold;
+}
+
+.staff__item:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.staff__item:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+.staff__date-group {
+    flex: 1;
+    text-align: center;
+}
+
+.staff__name,
+.staff__email,
+.staff__actions {
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+}
+
+.staff__actions {
+    width: auto;
+    text-decoration: none;
+}
+
+.staff__actions a {
+    text-decoration: none;
+    color: #333;
+}
