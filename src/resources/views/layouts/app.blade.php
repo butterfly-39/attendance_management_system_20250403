@@ -22,7 +22,7 @@
             <ul class="header__nav-list">
                 @if(auth()->user()->is_admin)
                     <li class="header__nav-item">
-                        <a href="/attendance/list" class="header__nav-link header__nav-link--bold">勤怠一覧</a>
+                        <a href="/admin/attendance" class="header__nav-link header__nav-link--bold">勤怠一覧</a>
                     </li>
                     <li class="header__nav-item">
                         <a href="/staff/list" class="header__nav-link header__nav-link--bold">スタッフ一覧</a>
@@ -51,7 +51,7 @@
                     @endif
                 @endif
                 <li class="header__nav-item">
-                    <form action="/logout" method="POST" class="header__logout-form">
+                    <form action="{{ route(auth()->user()->is_admin ? 'admin.logout' : 'logout') }}" method="POST" class="header__logout-form">
                         @csrf
                         <button type="submit" class="header__nav-link header__logout-button header__nav-link--bold">ログアウト</button>
                     </form>
