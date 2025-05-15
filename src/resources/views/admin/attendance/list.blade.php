@@ -11,42 +11,43 @@ use Carbon\Carbon;
 @section('content')
 <div class="attendance">
     <div class="attendance__content">
-        <h2 class="attendance__heading">{{ $currentDate->format('Y年n月') }}の勤怠</h2>
+        <h2 class="attendance__heading">{{ $currentDate->format('Y年n月j日') }}の勤怠</h2>
 
-        {{-- 月選択ナビゲーション --}}
-        <div class="attendance__month-nav">
-            <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->subMonth()->format('Y-m')]) }}" class="btn btn-secondary">← 前月</a>
-            <span class="current-month">
+        {{-- 日付選択ナビゲーション --}}
+        <div class="attendance__date-nav">
+            <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->subDay()->format('Y-m-d')]) }}" class="btn btn-secondary">← 前日</a>
+            <span class="current-date">
                 <i class="fas fa-calendar-alt"></i>
-                {{ $currentDate->format('Y/m') }}
+                {{ $currentDate->format('Y/m/d') }}
             </span>
-            <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->addMonth()->format('Y-m')]) }}" class="btn btn-secondary">翌月 →</a>
+            <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->addDay()->format('Y-m-d')]) }}" class="btn btn-secondary">翌日 →</a>
         </div>
 
         <div class="attendance__list">
-            <div class="attendance__item">
-                <div class="attendance__item-header">日付</div>
+            <div class="attendance__item attendance__item--header">
+                <div class="attendance__item-header">名前</div>
                 <div class="attendance__item-header">出勤</div>
                 <div class="attendance__item-header">退勤</div>
                 <div class="attendance__item-header">休憩</div>
                 <div class="attendance__item-header">合計</div>
                 <div class="attendance__item-header">詳細</div>
             </div>
-            @foreach($attendances as $attendance)
+            @forelse($attendances as $attendance)
                 <div class="attendance__item">
-                    <div class="attendance__date-group">
-                        <span class="attendance__date">{{ Carbon::parse($attendance->date)->format('m/d') }}</span>
-                        <span class="attendance__day">({{ Carbon::parse($attendance->date)->isoFormat('ddd') }})</span>
-                    </div>
+                    <div class="attendance__user-name">{{ $attendance->user->name }}</div>
                     <div class="attendance__time">{{ $attendance->clock_in_time ? Carbon::parse($attendance->clock_in_time)->format('H:i') : '---' }}</div>
                     <div class="attendance__time">{{ $attendance->clock_out_time ? Carbon::parse($attendance->clock_out_time)->format('H:i') : '---' }}</div>
                     <div class="attendance__time">{{ $attendance->total_break_time ?? '---' }}</div>
                     <div class="attendance__time">{{ $attendance->total_work_time ?? '---' }}</div>
                     <div class="attendance__actions">
-                        <a href="{{ route('attendance.show', ['id' => $attendance->id]) }}" class="btn btn-primary">詳細</a>
+                        <a href="{{ route('admin.attendance.show', ['id' => $attendance->id]) }}" class="btn btn-primary">詳細</a>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="attendance__item attendance__item--empty">
+                    <div class="attendance__empty-message">この日の勤怠記録はありません</div>
+                </div>
+            @endforelse
         </div>
     </div>
 </div>
@@ -55,17 +56,20 @@ use Carbon\Carbon;
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    flatpickr('.current-month', {
+    flatpickr('.current-date', {
         locale: 'ja',
-        dateFormat: 'Y/m',
-        defaultDate: '{{ $currentDate->format("Y/m") }}',
+        dateFormat: 'Y/m/d',
+        defaultDate: '{{ $currentDate->format("Y/m/d") }}',
         enableTime: false,
         onChange: function(selectedDates, dateStr) {
             const date = selectedDates[0];
-            const formattedDate = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
-            window.location.href = '/attendance/list?date=' + formattedDate;
+            const formattedDate = date.getFullYear() + '-' + 
+                String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(date.getDate()).padStart(2, '0');
+            window.location.href = '{{ route("admin.attendance.list") }}?date=' + formattedDate;
         }
     });
 });
 </script>
 @endsection
+
