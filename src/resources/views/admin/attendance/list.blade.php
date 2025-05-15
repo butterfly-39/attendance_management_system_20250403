@@ -18,7 +18,7 @@ use Carbon\Carbon;
             <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->subDay()->format('Y-m-d')]) }}" class="btn btn-secondary">← 前日</a>
             <span class="current-date">
                 <i class="fas fa-calendar-alt"></i>
-                {{ $currentDate->format('Y/m/d') }}
+                {{ $currentDate->format('Y年n月j日') }}
             </span>
             <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->addDay()->format('Y-m-d')]) }}" class="btn btn-secondary">翌日 →</a>
         </div>
@@ -32,7 +32,7 @@ use Carbon\Carbon;
                 <div class="attendance__item-header">合計</div>
                 <div class="attendance__item-header">詳細</div>
             </div>
-            @forelse($attendances as $attendance)
+            @foreach($attendances as $attendance)
                 <div class="attendance__item">
                     <div class="attendance__user-name">{{ $attendance->user->name }}</div>
                     <div class="attendance__time">{{ $attendance->clock_in_time ? Carbon::parse($attendance->clock_in_time)->format('H:i') : '---' }}</div>
@@ -43,11 +43,7 @@ use Carbon\Carbon;
                         <a href="{{ route('admin.attendance.show', ['id' => $attendance->id]) }}" class="btn btn-primary">詳細</a>
                     </div>
                 </div>
-            @empty
-                <div class="attendance__item attendance__item--empty">
-                    <div class="attendance__empty-message">この日の勤怠記録はありません</div>
-                </div>
-            @endforelse
+            @endforeach
         </div>
     </div>
 </div>

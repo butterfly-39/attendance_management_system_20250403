@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     {
         $user = auth()->user();
         $today = Carbon::today();
-        
+
         $attendance = Attendance::where('user_id', $user->id)
             ->where('date', $today->format('Y-m-d'))
             ->first();
@@ -31,7 +31,7 @@ class AttendanceController extends Controller
         $user = auth()->user();
         $today = Carbon::today();
         $currentDateTime = Carbon::now();
-        
+
         $attendance = Attendance::where('user_id', $user->id)
             ->where('date', $today->format('Y-m-d'))
             ->first();
@@ -64,7 +64,7 @@ class AttendanceController extends Controller
                         ->whereNull('break_end_time')
                         ->latest()
                         ->first();
-                    
+
                     if ($latestBreak) {
                         $latestBreak->update([
                             'break_end_time' => $currentDateTime
@@ -90,12 +90,12 @@ class AttendanceController extends Controller
     public function list(Request $request)
     {
         $user = Auth::user();
-        
+
         // 表示する月を設定（デフォルトは現在の月）
         $currentDate = $request->input('date') 
             ? Carbon::parse($request->input('date')) 
             : Carbon::now();
-        
+
         $attendances = Attendance::where('user_id', $user->id)
             ->whereYear('date', $currentDate->year)
             ->whereMonth('date', $currentDate->month)
@@ -156,7 +156,7 @@ class AttendanceController extends Controller
             // 既存の休憩時間と比較して変更があるかチェック
             if ($request->break_start_time) {
                 $existingBreaks = $attendance->breakTimes->toArray();
-                
+
                 foreach ($request->break_start_time as $key => $start_time) {
                     // 空の休憩時間エントリーをスキップ
                     if (!$start_time || !isset($request->break_end_time[$key]) || !$request->break_end_time[$key]) {
@@ -171,7 +171,7 @@ class AttendanceController extends Controller
                     if (isset($existingBreaks[$key])) {
                         $existingStart = Carbon::parse($existingBreaks[$key]['break_start_time'])->format('Y-m-d H:i');
                         $existingEnd = Carbon::parse($existingBreaks[$key]['break_end_time'])->format('Y-m-d H:i');
-                        
+
                         if ($existingStart === $newBreakStart && $existingEnd === $newBreakEnd) {
                             $isModified = false;
                         }
