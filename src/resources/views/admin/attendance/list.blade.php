@@ -18,7 +18,7 @@ use Carbon\Carbon;
             <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->subDay()->format('Y-m-d')]) }}" class="btn btn-secondary">← 前日</a>
             <span class="current-date">
                 <i class="fas fa-calendar-alt"></i>
-                {{ $currentDate->format('Y年n月j日') }}
+                {{ $currentDate->format('Y/m/d') }}
             </span>
             <a href="{{ route('admin.attendance.list', ['date' => $currentDate->copy()->addDay()->format('Y-m-d')]) }}" class="btn btn-secondary">翌日 →</a>
         </div>
