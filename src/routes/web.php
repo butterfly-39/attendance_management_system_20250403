@@ -5,7 +5,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampCorrectionRequestController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
-
+use App\Http\Controllers\Admin\StaffController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +38,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
     Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
     Route::post('/logout', [AdminAttendanceController::class, 'logout'])->name('logout');
+    Route::get('/staff/list', [StaffController::class, 'list'])->name('staff.list');
+    Route::get('/staff/{id}/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
+    Route::get('/staff/{id}', [StaffController::class, 'show'])->name('staff.show');
 });
 
 
