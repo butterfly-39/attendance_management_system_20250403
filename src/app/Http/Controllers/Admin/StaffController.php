@@ -26,5 +26,26 @@ class StaffController extends Controller
         ]);
     }
 
-    
+    /**
+     * スタッフの勤怠一覧を表示
+     *
+     * @param int $id スタッフのID
+     * @return \Illuminate\View\View
+     */
+    public function attendanceList($id)
+    {
+        $currentDate = Carbon::now();
+        
+        $staff = User::with(['attendances' => function($query) {
+            $query->orderBy('date', 'desc');
+        }])->findOrFail($id);
+        
+        $attendances = $staff->attendances;
+        
+        return view('admin.staff.attendance-list', [
+            'staff' => $staff,
+            'currentDate' => $currentDate,
+            'attendances' => $attendances,
+        ]);
+    }
 }

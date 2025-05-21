@@ -28,7 +28,7 @@
                         <a href="/admin/staff/list" class="header__nav-link header__nav-link--bold">スタッフ一覧</a>
                     </li>
                     <li class="header__nav-item">
-                        <a href="/stamp_correction_request/list" class="header__nav-link header__nav-link--bold">申請一覧</a>
+                        <a href="/admin/stamp-correction/list" class="header__nav-link header__nav-link--bold">申請一覧</a>
                     </li>
                 @else
                     @if(auth()->user()->attendance && auth()->user()->attendance->status === '退勤済')

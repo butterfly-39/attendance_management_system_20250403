@@ -24,7 +24,7 @@ use Carbon\Carbon;
                     <div class="staff__name">{{ $user->name }}</div>
                     <div class="staff__email">{{ $user->email }}</div>
                     <div class="staff__actions">
-                        <a href="{{ route('admin.staff.monthly', ['id' => $user->id]) }}" class="btn btn-primary">詳細</a>
+                        <a href="{{ route('admin.staff.attendance-list', ['id' => $user->id]) }}" class="btn btn-primary">詳細</a>
                     </div>
                 </div>
             @endforeach

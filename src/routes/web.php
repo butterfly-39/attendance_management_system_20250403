@@ -39,8 +39,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
     Route::post('/logout', [AdminAttendanceController::class, 'logout'])->name('logout');
     Route::get('/staff/list', [StaffController::class, 'list'])->name('staff.list');
-    Route::get('/staff/{id}/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
-    Route::get('/staff/{id}', [StaffController::class, 'show'])->name('staff.show');
+    Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
+    Route::get('/stamp-correction/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
+    Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
 });
 
 
