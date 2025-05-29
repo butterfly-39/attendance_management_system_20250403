@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 @endphp
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/stamp-correction/list.css')}}">
+<link rel="stylesheet" href="{{ asset('css/admin/stamp-correction/list.css')}}">
 @endsection
 
 @section('content')
