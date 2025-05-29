@@ -43,7 +43,7 @@ use Carbon\Carbon;
                     <div class="attendance__time">{{ $attendance->total_break_time ?? '---' }}</div>
                     <div class="attendance__time">{{ $attendance->total_work_time ?? '---' }}</div>
                     <div class="attendance__actions">
-                        <a href="{{ route('attendance.show', ['id' => $attendance->id]) }}" class="btn btn-primary">詳細</a>
+                        <a href="{{ route('admin.attendance.show', ['id' => $attendance->id]) }}" class="btn btn-primary">詳細</a>
                     </div>
                 </div>
             @endforeach
