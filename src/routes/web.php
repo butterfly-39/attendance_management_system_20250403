@@ -41,9 +41,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/logout', [AdminAttendanceController::class, 'logout'])->name('logout');
     Route::get('/staff/list', [StaffController::class, 'list'])->name('staff.list');
     Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
-    Route::get('/stamp-correction/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
     Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
-    Route::get('/stamp-correction/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
+    Route::get('/stamp_correction_request/list', [AdminStampCorrectionRequestController::class, 'list'])->name('stamp_correction_request.list');
 });
 
 
