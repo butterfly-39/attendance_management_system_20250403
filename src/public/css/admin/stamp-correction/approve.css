@@ -69,11 +69,11 @@
 }
 
 .stamp-correction__time--in {
-    margin-right: 20px;
+    margin-right: 50px;
 }
 
 .stamp-correction__time--out {
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .stamp-correction__time--in-pending {
@@ -121,27 +121,4 @@
 
 .stamp-correction__break-time-row:last-child {
     margin-bottom: 0;
-}
-
-/* Chrome, Safari, Edge用 */
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-}
-
-/* Firefox用 */
-input[type="time"]::-moz-calendar-picker-indicator {
-    display: none;
-}
-
-.stamp-correction__error-message {
-    color: #ff0000;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.stamp-correction__pending-message {
-    color: #ff0000;
-    font-size: 14px;
-    margin-top: 20px;
-    text-align: right;
 }
