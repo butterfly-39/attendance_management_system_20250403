@@ -8,6 +8,7 @@ use App\Models\StampCorrectionRequest;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakCorrectionRequest;
+use Illuminate\Support\Facades\DB;
 
 class StampCorrectionRequestController extends Controller
 {
@@ -52,9 +53,42 @@ class StampCorrectionRequestController extends Controller
 
     public function approve($id)
     {
-        $stampCorrectionRequest = StampCorrectionRequest::find($id);
-        $stampCorrectionRequest->status = '承認済み';
-        $stampCorrectionRequest->save();
-        return redirect()->route('admin.stamp_correction_request.list');
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+            // 打刻修正申請を取得
+            $stampCorrectionRequest = StampCorrectionRequest::with(['attendance', 'breakCorrectionRequests'])->findOrFail($id);
+            
+            // 勤怠情報を更新
+            $attendance = $stampCorrectionRequest->attendance;
+            $attendance->clock_in_time = $stampCorrectionRequest->clock_in_time;
+            $attendance->clock_out_time = $stampCorrectionRequest->clock_out_time;
+            $attendance->save();
+
+            // 既存の休憩時間を削除
+            $attendance->breakTimes()->delete();
+
+            // 新しい休憩時間を追加
+            foreach ($stampCorrectionRequest->breakCorrectionRequests as $breakCorrection) {
+                $attendance->breakTimes()->create([
+                    'break_start_time' => $breakCorrection->break_start_time,
+                    'break_end_time' => $breakCorrection->break_end_time
+                ]);
+            }
+
+            // 打刻修正申請のステータスを更新
+            $stampCorrectionRequest->status = '承認済み';
+            $stampCorrectionRequest->save();
+
+            DB::commit();
+            
+            return redirect()
+                ->route('admin.stamp_correction_request.approve', ['attendance_correction_request' => $stampCorrectionRequest->id]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->route('admin.stamp_correction_request.approve', ['attendance_correction_request' => $stampCorrectionRequest->id]);
+        }
     }
 }
