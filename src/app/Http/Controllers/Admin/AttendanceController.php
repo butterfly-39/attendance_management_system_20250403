@@ -61,52 +61,50 @@ class AttendanceController extends Controller
         DB::transaction(function () use ($request, $attendance) {
             $date = Carbon::parse($attendance->date)->format('Y-m-d');
 
-            // StampCorrectionRequestを作成
-            $stampCorrectionRequest = StampCorrectionRequest::create([
-                'attendance_id' => $attendance->id,
-                'user_id' => auth()->id(),
+            // Attendanceテーブルを直接更新
+            $attendance->update([
                 'clock_in_time' => $date . ' ' . $request->clock_in_time,
                 'clock_out_time' => $date . ' ' . $request->clock_out_time,
-                'status' => '承認待ち',
-                'note' => $request->note
             ]);
 
-            // 既存の休憩時間と比較して変更があるかチェック
-            if ($request->break_start_time) {
-                $existingBreaks = $attendance->breakTimes->toArray();
+            // 既存の休憩時間レコードを取得
+            $existingBreaks = $attendance->breakTimes()->orderBy('id')->get();
 
+            // 休憩時間の更新・作成
+            if ($request->break_start_time) {
                 foreach ($request->break_start_time as $key => $start_time) {
                     // 空の休憩時間エントリーをスキップ
                     if (!$start_time || !isset($request->break_end_time[$key]) || !$request->break_end_time[$key]) {
                         continue;
                     }
 
-                    $newBreakStart = $date . ' ' . $start_time;
-                    $newBreakEnd = $date . ' ' . $request->break_end_time[$key];
+                    $breakData = [
+                        'attendance_id' => $attendance->id,
+                        'break_start_time' => $date . ' ' . $start_time,
+                        'break_end_time' => $date . ' ' . $request->break_end_time[$key],
+                    ];
 
-                    // 既存の休憩時間と異なる場合のみ修正申請を作成
-                    $isModified = true;
+                    // 既存のレコードがあれば更新、なければ作成
                     if (isset($existingBreaks[$key])) {
-                        $existingStart = Carbon::parse($existingBreaks[$key]['break_start_time'])->format('Y-m-d H:i');
-                        $existingEnd = Carbon::parse($existingBreaks[$key]['break_end_time'])->format('Y-m-d H:i');
-
-                        if ($existingStart === $newBreakStart && $existingEnd === $newBreakEnd) {
-                            $isModified = false;
-                        }
-                    }
-
-                    if ($isModified) {
-                        BreakCorrectionRequest::create([
-                            'stamp_correction_request_id' => $stampCorrectionRequest->id,
-                            'break_start_time' => $newBreakStart,
-                            'break_end_time' => $newBreakEnd
-                        ]);
+                        $existingBreaks[$key]->update($breakData);
+                    } else {
+                        BreakTime::create($breakData);
                     }
                 }
             }
+
+            // リクエストで送信された休憩時間数より多い既存レコードは削除
+            if ($request->break_start_time) {
+                $requestBreakCount = count(array_filter($request->break_start_time));
+                if ($existingBreaks->count() > $requestBreakCount) {
+                    $attendance->breakTimes()->skip($requestBreakCount)->take($existingBreaks->count() - $requestBreakCount)->delete();
+                }
+            } else {
+                // 休憩時間がリクエストにない場合は全て削除
+                $attendance->breakTimes()->delete();
+            }
         });
 
-        // idパラメータを追加してリダイレクト
         return redirect()->route('admin.attendance.show', ['id' => $id]);
     }
 

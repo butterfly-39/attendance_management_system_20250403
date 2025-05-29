@@ -6,6 +6,7 @@ use App\Http\Controllers\StampCorrectionRequestController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\StampCorrectionRequestController as AdminStampCorrectionRequestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
     Route::get('/stamp-correction/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
     Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
+    Route::get('/stamp-correction/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
 });
 
 
