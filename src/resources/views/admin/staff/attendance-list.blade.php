@@ -51,7 +51,7 @@ use Carbon\Carbon;
 
         <div class="attendance__export mt-4 text-right">
             <a href="{{ route('admin.staff.attendance.export', ['id' => $staff->id, 'date' => $currentDate->format('Y-m')]) }}" class="btn btn-dark">
-                <i class="fas fa-file-download"></i>CSV出力
+                CSV出力
             </a>
         </div>
     </div>
