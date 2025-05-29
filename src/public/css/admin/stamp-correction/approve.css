@@ -115,6 +115,15 @@
     opacity: 0.8;
 }
 
+.stamp-correction__button--approved {
+    background: #888;
+    cursor: not-allowed;
+}
+
+.stamp-correction__button--approved:hover {
+    opacity: 1;
+}
+
 .stamp-correction__break-time-row {
     margin-bottom: 10px;
 }
