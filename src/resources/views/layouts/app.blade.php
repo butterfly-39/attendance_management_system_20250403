@@ -31,7 +31,10 @@
                         <a href="/admin/stamp_correction_request/list" class="header__nav-link header__nav-link--bold">申請一覧</a>
                     </li>
                 @else
-                    @if(auth()->user()->attendance && auth()->user()->attendance->status === '退勤済')
+                    @php
+                        $latestAttendance = auth()->user()->attendances()->whereDate('date', now()->toDateString())->first();
+                    @endphp
+                    @if($latestAttendance && $latestAttendance->status === '退勤済')
                         <li class="header__nav-item">
                             <a href="/attendance/list" class="header__nav-link">今月の出勤一覧</a>
                         </li>
