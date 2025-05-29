@@ -15,12 +15,12 @@ use Carbon\Carbon;
 
         {{-- 月選択ナビゲーション --}}
         <div class="attendance__month-nav">
-            <a href="{{ route('attendance.list', ['date' => $currentDate->copy()->subMonth()->format('Y-m')]) }}" class="btn btn-secondary">← 前月</a>
+            <a href="{{ route('admin.staff.attendance-list', ['id' => $staff->id]) }}?date={{ $currentDate->copy()->subMonth()->format('Y-m') }}" class="btn btn-secondary">← 前月</a>
             <span class="current-month">
                 <i class="fas fa-calendar-alt"></i>
                 {{ $currentDate->format('Y/m') }}
             </span>
-            <a href="{{ route('attendance.list', ['date' => $currentDate->copy()->addMonth()->format('Y-m')]) }}" class="btn btn-secondary">翌月 →</a>
+            <a href="{{ route('admin.staff.attendance-list', ['id' => $staff->id]) }}?date={{ $currentDate->copy()->addMonth()->format('Y-m') }}" class="btn btn-secondary">翌月 →</a>
         </div>
 
         <div class="attendance__list">
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         onChange: function(selectedDates, dateStr) {
             const date = selectedDates[0];
             const formattedDate = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
-            window.location.href = '/attendance/list?date=' + formattedDate;
+            window.location.href = '{{ route("admin.staff.attendance-list", ["id" => $staff->id]) }}' + '?date=' + formattedDate;
         }
     });
 });
