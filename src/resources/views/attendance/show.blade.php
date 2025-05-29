@@ -13,7 +13,7 @@ use Carbon\Carbon;
     <div class="attendance__content">
         <h2 class="attendance__heading">勤怠詳細</h2>
 
-        <form action="{{ route('attendance.update', ['id' => $attendance->id]) }}" method="POST" class="{{ $pendingRequest ? 'disabled-form' : '' }}">
+        <form action="{{ route('attendance.update', ['id' => $attendance->id]) }}" method="POST" class="{{ $pendingRequest || $attendance->status !== '退勤済' ? 'disabled-form' : '' }}">
             @csrf
             @method('PUT')
             <div class="attendance__detail">
@@ -95,7 +95,7 @@ use Carbon\Carbon;
                     </div>
                 </div>
             </div>
-            @if(!$pendingRequest)
+            @if(!$pendingRequest && $attendance->status === '退勤済')
                 <div class="attendance__button-container">
                     <button type="submit" class="attendance__button">修正</button>
                 </div>
@@ -105,6 +105,10 @@ use Carbon\Carbon;
         @if($pendingRequest)
             <div class="pending-message">
                 *承認待ちのため修正はできません。
+            </div>
+        @elseif($attendance->status !== '退勤済')
+            <div class="pending-message">
+                *退勤後に修正が可能になります。
             </div>
         @endif
     </div>
