@@ -43,6 +43,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
     Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
     Route::get('/stamp_correction_request/list', [AdminStampCorrectionRequestController::class, 'list'])->name('stamp_correction_request.list');
+    Route::get('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'showApprove'])->name('stamp_correction_request.showApprove');
+    Route::post('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'approve'])->name('stamp_correction_request.approve');
 });
 
 

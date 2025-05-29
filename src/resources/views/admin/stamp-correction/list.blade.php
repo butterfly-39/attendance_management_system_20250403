@@ -43,7 +43,7 @@ use Illuminate\Support\Str;
                 <div class="stamp-correction__item-note">{{ Str::limit($stampCorrection->note, 5, '...') }}</div>
                 <div class="stamp-correction__item-created-at">{{ Carbon::parse($stampCorrection->created_at)->format('Y/m/d') }}</div>
                 <div class="stamp-correction__item-actions">
-                    <a href="{{ route('admin.attendance.show', ['id' => $stampCorrection->attendance_id]) }}">詳細</a>
+                    <a href="{{ route('admin.stamp_correction_request.showApprove', ['attendance_correction_request' => $stampCorrection->id]) }}">詳細</a>
                 </div>
             </div>
             @endforeach

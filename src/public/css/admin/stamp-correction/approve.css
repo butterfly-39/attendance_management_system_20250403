@@ -1,0 +1,147 @@
+.stamp-correction {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+.stamp-correction__heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 70px;
+    padding-left: 15px;
+    border-left: 8px solid #333;
+}
+
+.stamp-correction__detail {
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.stamp-correction__row {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 30px 60px;
+    height: 30px;
+}
+
+.stamp-correction__row.break-time {
+    height: auto;
+    min-height: 30px;
+}
+
+.stamp-correction__row:last-child {
+    border-bottom: none;
+}
+
+.stamp-correction__label {
+    width: 150px;
+    font-weight: bold;
+    margin-right: 130px;
+    color: rgb(112, 112, 112);
+}
+
+.stamp-correction__value {
+    flex: 1;
+    font-weight: bold;
+}
+
+.stamp-correction__year {
+    margin-right: 120px;
+}
+
+.stamp-correction__separator {
+    margin: 0 10px;
+}
+
+.stamp-correction__time {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: -20px;
+    width: 100px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: center;
+}
+
+.stamp-correction__time--in {
+    margin-right: 20px;
+}
+
+.stamp-correction__time--out {
+    margin-left: 20px;
+}
+
+.stamp-correction__time--in-pending {
+    margin-right: 50px;
+}
+
+.stamp-correction__time--out-pending {
+    margin-left: 50px;
+}
+
+.stamp-correction__textarea {
+    width: 57%;
+    height: 65px;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
+.stamp-correction__button-container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.stamp-correction__button {
+    background: #000;
+    color: #fff;
+    padding: 8px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.stamp-correction__button:hover {
+    opacity: 0.8;
+}
+
+.stamp-correction__break-time-row {
+    margin-bottom: 10px;
+}
+
+.stamp-correction__break-time-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Chrome, Safari, Edge用 */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* Firefox用 */
+input[type="time"]::-moz-calendar-picker-indicator {
+    display: none;
+}
+
+.stamp-correction__error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.stamp-correction__pending-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: right;
+}
