@@ -32,13 +32,11 @@ class StampCorrectionRequestController extends Controller
 
     public function showApprove($id)
     {
-        // 勤怠情報を取得
-        $attendance = Attendance::with(['user'])->findOrFail($id);
-
-        // 承認待ちの申請を取得
-        $stampCorrection = StampCorrectionRequest::where('attendance_id', $id)
-            ->where('status', '承認待ち')
-            ->firstOrFail();
+        // 打刻修正申請を取得
+        $stampCorrection = StampCorrectionRequest::with(['user', 'attendance'])->findOrFail($id);
+        
+        // 関連する勤怠情報を取得
+        $attendance = $stampCorrection->attendance;
 
         // 休憩時間修正申請を取得
         $breakCorrections = BreakCorrectionRequest::where('stamp_correction_request_id', $stampCorrection->id)
