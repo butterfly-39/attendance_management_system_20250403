@@ -81,19 +81,6 @@ use Carbon\Carbon;
                         @endif
                     </div>
                 </div>
-                <div class="attendance__row">
-                    <div class="attendance__label">備考</div>
-                    <div class="attendance__value">
-                        @if($pendingRequest)
-                            {{ $stampCorrection->note }}
-                        @else
-                            <textarea class="attendance__textarea" name="note">{{ old('note', $attendance->note) }}</textarea>
-                            @error('note')
-                                <div class="error-message">{{ $message }}</div>
-                            @enderror
-                        @endif
-                    </div>
-                </div>
             </div>
             @if(!$pendingRequest)
                 <div class="attendance__button-container">
