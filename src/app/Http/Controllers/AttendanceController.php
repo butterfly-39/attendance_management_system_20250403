@@ -92,8 +92,8 @@ class AttendanceController extends Controller
         $user = Auth::user();
 
         // 表示する月を設定（デフォルトは現在の月）
-        $currentDate = $request->input('date') 
-            ? Carbon::parse($request->input('date')) 
+        $currentDate = $request->input('date')
+            ? Carbon::parse($request->input('date'))
             : Carbon::now();
 
         $attendances = Attendance::where('user_id', $user->id)
