@@ -111,7 +111,7 @@ class AttendanceController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with(['user', 'breakTimes'])->findOrFail($id);
-        $breakTimes = $attendance->breakTimes()->first();
+        $breakTimes = $attendance->breakTimes;
 
         // 承認待ちの申請を取得
         $stampCorrection = StampCorrectionRequest::where('attendance_id', $id)
