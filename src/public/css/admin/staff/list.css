@@ -88,3 +88,27 @@ body {
     text-decoration: none;
     color: #333;
 }
+
+/* PC (1400-1540px) */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .staff-list__content {
+        max-width: 1000px;
+    }
+
+    .staff-list__item {
+        grid-template-columns: 200px 300px 150px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .staff-list__content {
+        max-width: 700px;
+        padding: 15px;
+    }
+
+    .staff-list__item {
+        grid-template-columns: 150px 250px 120px;
+        gap: 15px;
+    }
+}

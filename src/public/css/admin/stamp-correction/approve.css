@@ -131,3 +131,27 @@
 .stamp-correction__break-time-row:last-child {
     margin-bottom: 0;
 }
+
+/* PC (1400-1540px) */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .correction__content {
+        max-width: 1000px;
+    }
+
+    .correction__row {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
+/* タブレット (768-850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .correction__content {
+        max-width: 700px;
+        padding: 15px;
+    }
+
+    .correction__row {
+        grid-template-columns: 150px 1fr;
+        gap: 15px;
+    }
+}

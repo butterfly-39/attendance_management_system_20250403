@@ -139,3 +139,39 @@ body {
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* PC (1400-1540px) */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance__content {
+        max-width: 800px;
+    }
+
+    .attendance__item {
+        grid-template-columns: 130px 100px 100px 100px 100px 90px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance__content {
+        max-width: 700px;
+        padding: 10px;
+    }
+
+    .attendance__item {
+        grid-template-columns: 120px 90px 90px 90px 90px 80px;
+        padding: 8px;
+    }
+
+    .attendance__heading {
+        font-size: 20px;
+    }
+
+    .attendance__date-nav {
+        margin: 20px 0;
+    }
+
+    .current-date {
+        font-size: 18px;
+    }
+}

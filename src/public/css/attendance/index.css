@@ -96,3 +96,30 @@
     font-size: 18px;
     color: #666;
 }
+
+/* PC (1400-1540px) */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance__content {
+        max-width: 1000px;
+    }
+
+    .attendance__status {
+        font-size: 24px;
+    }
+}
+
+/* タブレット (768-850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .attendance__content {
+        max-width: 700px;
+        padding: 15px;
+    }
+
+    .attendance__status {
+        font-size: 20px;
+    }
+
+    .attendance__button {
+        min-width: 120px;
+    }
+}
