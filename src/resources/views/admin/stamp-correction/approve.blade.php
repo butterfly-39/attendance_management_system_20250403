@@ -55,7 +55,7 @@ use Carbon\Carbon;
                     </div>
                 </div>
             </div>
-            
+
             <div class="stamp-correction__button-container">
                 @if($stampCorrection->status === '承認済み')
                     <button type="button" class="stamp-correction__button stamp-correction__button--approved" disabled>承認済み</button>

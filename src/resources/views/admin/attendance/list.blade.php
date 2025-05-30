@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
         enableTime: false,
         onChange: function(selectedDates, dateStr) {
             const date = selectedDates[0];
-            const formattedDate = date.getFullYear() + '-' + 
-                String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+            const formattedDate = date.getFullYear() + '-' +
+                String(date.getMonth() + 1).padStart(2, '0') + '-' +
                 String(date.getDate()).padStart(2, '0');
             window.location.href = '{{ route("admin.attendance.list") }}?date=' + formattedDate;
         }

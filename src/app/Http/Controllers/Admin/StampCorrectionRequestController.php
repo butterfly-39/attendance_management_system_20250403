@@ -34,7 +34,7 @@ class StampCorrectionRequestController extends Controller
     {
         // 打刻修正申請を取得
         $stampCorrection = StampCorrectionRequest::with(['user', 'attendance'])->findOrFail($id);
-        
+
         // 関連する勤怠情報を取得
         $attendance = $stampCorrection->attendance;
 
@@ -56,7 +56,7 @@ class StampCorrectionRequestController extends Controller
         try {
             // 打刻修正申請を取得
             $stampCorrectionRequest = StampCorrectionRequest::with(['attendance', 'breakCorrectionRequests'])->findOrFail($id);
-            
+
             // 勤怠情報を更新
             $attendance = $stampCorrectionRequest->attendance;
             $attendance->clock_in_time = $stampCorrectionRequest->clock_in_time;
@@ -79,7 +79,7 @@ class StampCorrectionRequestController extends Controller
             $stampCorrectionRequest->save();
 
             DB::commit();
-            
+
             return redirect()
                 ->route('admin.stamp_correction_request.approve', ['attendance_correction_request' => $stampCorrectionRequest->id]);
 

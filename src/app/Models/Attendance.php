@@ -36,7 +36,7 @@ class Attendance extends Model
     public function getTotalBreakTimeAttribute()
     {
         $totalBreakMinutes = 0;
-        
+
         foreach ($this->breakTimes as $breakTime) {
             if ($breakTime->break_start_time && $breakTime->break_end_time) {
                 $start = Carbon::parse($breakTime->break_start_time);
@@ -44,14 +44,14 @@ class Attendance extends Model
                 $totalBreakMinutes += $end->diffInMinutes($start);
             }
         }
-        
+
         if ($totalBreakMinutes === 0) {
             return null;
         }
-        
+
         $hours = floor($totalBreakMinutes / 60);
         $minutes = $totalBreakMinutes % 60;
-        
+
         return sprintf('%02d:%02d', $hours, $minutes);
     }
 
@@ -63,10 +63,10 @@ class Attendance extends Model
 
         $start = Carbon::parse($this->clock_in_time);
         $end = Carbon::parse($this->clock_out_time);
-        
+
         // 総勤務時間（分）を計算
         $totalMinutes = $end->diffInMinutes($start);
-        
+
         // 休憩時間（分）を計算
         $totalBreakMinutes = 0;
         foreach ($this->breakTimes as $breakTime) {
@@ -76,17 +76,17 @@ class Attendance extends Model
                 $totalBreakMinutes += $breakEnd->diffInMinutes($breakStart);
             }
         }
-        
+
         // 実労働時間を計算
         $actualWorkMinutes = $totalMinutes - $totalBreakMinutes;
-        
+
         if ($actualWorkMinutes <= 0) {
             return null;
         }
-        
+
         $hours = floor($actualWorkMinutes / 60);
         $minutes = $actualWorkMinutes % 60;
-        
+
         return sprintf('%02d:%02d', $hours, $minutes);
     }
 

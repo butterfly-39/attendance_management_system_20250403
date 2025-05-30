@@ -35,18 +35,18 @@ class StaffController extends Controller
     public function attendanceList($id, Request $request)
     {
         // リクエストから日付を取得、なければ現在の日付を使用
-        $currentDate = $request->has('date') 
+        $currentDate = $request->has('date')
             ? Carbon::createFromFormat('Y-m', $request->date)
             : Carbon::now();
-        
+
         $staff = User::with(['attendances' => function($query) use ($currentDate) {
             $query->whereYear('date', $currentDate->year)
-                  ->whereMonth('date', $currentDate->month)
-                  ->orderBy('date', 'desc');
+                ->whereMonth('date', $currentDate->month)
+                ->orderBy('date', 'desc');
         }])->findOrFail($id);
-        
+
         $attendances = $staff->attendances;
-        
+
         return view('admin.staff.attendance-list', [
             'staff' => $staff,
             'currentDate' => $currentDate,
@@ -58,7 +58,7 @@ public function export($id, Request $request)
 {
     $staff = User::findOrFail($id);
     $date = Carbon::parse($request->query('date', now()->format('Y-m')));
-    
+
     $attendances = Attendance::where('user_id', $id)
         ->whereYear('date', $date->year)
         ->whereMonth('date', $date->month)
@@ -66,7 +66,7 @@ public function export($id, Request $request)
         ->get();
 
     $csv = Writer::createFromString('');
-    
+
     // ヘッダー行を追加
     $csv->insertOne([
         '日付',
