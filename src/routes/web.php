@@ -18,17 +18,18 @@ use App\Http\Controllers\Admin\StampCorrectionRequestController as AdminStampCor
 |
 */
 
-// 一般ユーザー用ルート
-Route::middleware('auth')->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
-    Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
-    Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
-    Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
-    Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
-    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+// 一般ユーザーのログイン・登録（先に定義）
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');  // 一般ユーザー用のログインビュー
+    })->name('login');
+
+    Route::get('/register', function () {
+        return view('auth.register');  // 一般ユーザー用の登録ビュー
+    })->name('register');
 });
 
-// 管理者ログイン画面
+// 管理者用ルート
 Route::prefix('admin')->name('admin.')->group(function () {
     // ログインフォーム表示
     Route::get('/login', [AuthController::class, 'showLoginForm'])
@@ -38,7 +39,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // ログイン処理のルート
     Route::post('/login', [AuthController::class, 'login'])
         ->middleware(['web', 'guest'])
-        ->name('login.post');  // このルート名がビューのroute()と一致している必要があります
+        ->name('login.post');
 
     // 管理者用ダッシュボード等
     Route::middleware(['auth', 'admin'])->group(function () {
@@ -56,5 +57,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/staff/{id}/attendance/export', [StaffController::class, 'export'])->name('staff.attendance.export');
     });
 });
+
+// 一般ユーザー用ルート
+Route::middleware('auth')->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+    Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
+    Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
+    Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+});
+
+
 
 

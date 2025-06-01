@@ -46,44 +46,27 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::loginView(function () {
+            // 管理者ログインの場合
+            if (request()->is('admin/*')) {
+                return view('admin.auth.login');
+            }
+            // 一般ユーザーログインの場合
             return view('auth.login');
         });
 
-        // 管理者ログイン画面
-        Fortify::viewPrefix('admin.');
-
         // 認証ロジック
         Fortify::authenticateUsing(function (Request $request) {
-            // 管理者ログインの場合
-            if ($request->is('admin/*')) {
-                // バリデーション
-                try {
-                    $request->validate([
-                        'email' => 'required|email',
-                        'password' => 'required',
-                    ], [
-                        'email.required' => 'メールアドレスを入力してください',
-                        'email.email' => '正しいメールアドレスを入力してください',
-                        'password.required' => 'パスワードを入力してください',
-                    ]);
-                } catch (ValidationException $e) {
-                    throw $e;
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                // 管理者ログインの場合
+                if ($request->is('admin/*')) {
+                    return $user->is_admin ? $user : null;
                 }
-
-                $user = User::where('email', $request->email)->first();
-
-                if ($user &&
-                    Hash::check($request->password, $user->password) &&
-                    $user->is_admin) {
-                    return $user;
-                }
-
-                throw ValidationException::withMessages([
-                    'email' => ['ログイン情報が登録されていません'],
-                ]);
+                // 一般ユーザーログインの場合
+                return !$user->is_admin ? $user : null;
             }
 
-            // 一般ユーザーの認証処理
             return null;
         });
 
