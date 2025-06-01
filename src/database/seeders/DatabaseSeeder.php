@@ -17,5 +17,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             // 他のシーダークラスがあればここに追加
         ]);
+
+        $this->call([
+            UserSeeder::class,
+        ]);
     }
 }
