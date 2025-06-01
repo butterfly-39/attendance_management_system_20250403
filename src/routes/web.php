@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampCorrectionRequestController;
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StampCorrectionRequestController as AdminStampCorrectionRequestController;
@@ -30,22 +30,31 @@ Route::middleware('auth')->group(function () {
 
 // 管理者ログイン画面
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
-});
+    // ログインフォーム表示
+    Route::get('/login', [AuthController::class, 'showLoginForm'])
+        ->middleware('guest')
+        ->name('login');
 
-// 管理者用ダッシュボード等
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/attendance/list', [AdminAttendanceController::class, 'list'])->name('attendance.list');
-    Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
-    Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
-    Route::post('/logout', [AdminAttendanceController::class, 'logout'])->name('logout');
-    Route::get('/staff/list', [StaffController::class, 'list'])->name('staff.list');
-    Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
-    Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
-    Route::get('/stamp_correction_request/list', [AdminStampCorrectionRequestController::class, 'list'])->name('stamp_correction_request.list');
-    Route::get('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'showApprove'])->name('stamp_correction_request.showApprove');
-    Route::post('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'approve'])->name('stamp_correction_request.approve');
-    Route::get('/staff/{id}/attendance/export', [StaffController::class, 'export'])->name('staff.attendance.export');
+    // ログイン処理のルート
+    Route::post('/login', [AuthController::class, 'login'])
+        ->middleware(['web', 'guest'])
+        ->name('login.post');  // このルート名がビューのroute()と一致している必要があります
+
+    // 管理者用ダッシュボード等
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/attendance/list', [AdminAttendanceController::class, 'list'])
+            ->name('attendance.list');
+        Route::get('/attendance/{id}', [AdminAttendanceController::class, 'show'])->name('attendance.show');
+        Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update'])->name('attendance.update');
+        Route::post('/logout', [AdminAttendanceController::class, 'logout'])->name('logout');
+        Route::get('/staff/list', [StaffController::class, 'list'])->name('staff.list');
+        Route::get('/staff/monthly', [StaffController::class, 'monthly'])->name('staff.monthly');
+        Route::get('/staff/attendance-list/{id}', [StaffController::class, 'attendanceList'])->name('staff.attendance-list');
+        Route::get('/stamp_correction_request/list', [AdminStampCorrectionRequestController::class, 'list'])->name('stamp_correction_request.list');
+        Route::get('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'showApprove'])->name('stamp_correction_request.showApprove');
+        Route::post('/stamp_correction_request/approve/{attendance_correction_request}', [AdminStampCorrectionRequestController::class, 'approve'])->name('stamp_correction_request.approve');
+        Route::get('/staff/{id}/attendance/export', [StaffController::class, 'export'])->name('staff.attendance.export');
+    });
 });
 
 

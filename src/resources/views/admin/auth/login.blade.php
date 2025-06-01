@@ -8,7 +8,7 @@
 <div class="login-form">
     <h2 class="login-form__heading">管理者ログイン</h2>
     <div class="login-form__inner">
-        <form class="login-form__form" action="/login" method="post">
+        <form class="login-form__form" method="POST" action="{{ route('admin.login.post') }}">
         @csrf
             <div class="login-form__group">
                 <label class="login-form__label" for="email">メールアドレス</label>

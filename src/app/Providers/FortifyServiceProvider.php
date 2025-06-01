@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -36,16 +40,51 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
-        
+
         Fortify::registerView(function () {
             return view('auth.register');
         });
 
         Fortify::loginView(function () {
-            if (request()->is('admin/login')) {
-                return view('admin.auth.login');
-            }
             return view('auth.login');
+        });
+
+        // 管理者ログイン画面
+        Fortify::viewPrefix('admin.');
+
+        // 認証ロジック
+        Fortify::authenticateUsing(function (Request $request) {
+            // 管理者ログインの場合
+            if ($request->is('admin/*')) {
+                // バリデーション
+                try {
+                    $request->validate([
+                        'email' => 'required|email',
+                        'password' => 'required',
+                    ], [
+                        'email.required' => 'メールアドレスを入力してください',
+                        'email.email' => '正しいメールアドレスを入力してください',
+                        'password.required' => 'パスワードを入力してください',
+                    ]);
+                } catch (ValidationException $e) {
+                    throw $e;
+                }
+
+                $user = User::where('email', $request->email)->first();
+
+                if ($user &&
+                    Hash::check($request->password, $user->password) &&
+                    $user->is_admin) {
+                    return $user;
+                }
+
+                throw ValidationException::withMessages([
+                    'email' => ['ログイン情報が登録されていません'],
+                ]);
+            }
+
+            // 一般ユーザーの認証処理
+            return null;
         });
 
         RateLimiter::for('login', function (Request $request) {
