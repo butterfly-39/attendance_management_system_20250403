@@ -48,20 +48,22 @@ use Carbon\Carbon;
                         @endif
                     </div>
                 </div>
-                <div class="attendance__row break-time">
-                    <div class="attendance__label">休憩</div>
-                    <div class="attendance__value">
-                        @if($pendingRequest)
-                            @foreach($breakCorrections as $break)
-                                <div class="break-time-row">
-                                    <span class="attendance__time--in-pending">{{ Carbon::parse($break->break_start_time)->format('H:i') }}</span>
-                                    <span class="attendance__separator">〜</span>
-                                    <span class="attendance__time--out-pending">{{ $break->break_end_time ? Carbon::parse($break->break_end_time)->format('H:i') : '' }}</span>
-                                </div>
-                            @endforeach
-                        @else
-                            @foreach($attendance->breakTimes as $index => $break)
-                            <div class="break-time-row">
+                @if($pendingRequest)
+                    @foreach($breakCorrections as $index => $break)
+                        <div class="attendance__row">
+                            <div class="attendance__label">{{ $index === 0 ? '休憩' : '休憩'.($index + 1) }}</div>
+                            <div class="attendance__value">
+                                <span class="attendance__time--in-pending">{{ Carbon::parse($break->break_start_time)->format('H:i') }}</span>
+                                <span class="attendance__separator">〜</span>
+                                <span class="attendance__time--out-pending">{{ $break->break_end_time ? Carbon::parse($break->break_end_time)->format('H:i') : '' }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    @foreach($attendance->breakTimes as $index => $break)
+                        <div class="attendance__row">
+                            <div class="attendance__label">{{ $index === 0 ? '休憩' : '休憩'.($index + 1) }}</div>
+                            <div class="attendance__value">
                                 <input type="time" class="attendance__time attendance__time--in" value="{{ old('break_start_time.'.$index, Carbon::parse($break->break_start_time)->format('H:i')) }}" name="break_start_time[]">
                                 <span class="attendance__separator">〜</span>
                                 <input type="time" class="attendance__time attendance__time--out" value="{{ old('break_end_time.'.$index, $break->break_end_time ? Carbon::parse($break->break_end_time)->format('H:i') : '') }}" name="break_end_time[]">
@@ -72,12 +74,33 @@ use Carbon\Carbon;
                                     <div class="error-message">{{ $message }}</div>
                                 @enderror
                             </div>
-                            @endforeach
-                            <div class="break-time-row">
-                                <input type="time" class="attendance__time attendance__time--in" name="break_start_time[]">
-                                <span class="attendance__separator">〜</span>
-                                <input type="time" class="attendance__time attendance__time--out" name="break_end_time[]">
-                            </div>
+                        </div>
+                    @endforeach
+                    <div class="attendance__row">
+                        <div class="attendance__label">{{ count($attendance->breakTimes) === 0 ? '休憩' : '休憩'.(count($attendance->breakTimes) + 1) }}</div>
+                        <div class="attendance__value">
+                            <input type="time" class="attendance__time attendance__time--in" name="break_start_time[]">
+                            <span class="attendance__separator">〜</span>
+                            <input type="time" class="attendance__time attendance__time--out" name="break_end_time[]">
+                        </div>
+                        @error('break_start_time.' . count($attendance->breakTimes))
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+                        @error('break_end_time.' . count($attendance->breakTimes))
+                            <div class="error-message">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+                <div class="attendance__row">
+                    <div class="attendance__label">備考</div>
+                    <div class="attendance__value">
+                        @if($pendingRequest)
+                            {{$stampCorrection->note}}
+                        @else
+                            <textarea name="note" class="attendance__textarea">{{ old('note', $attendance->note) }}</textarea>
+                            @error('note')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         @endif
                     </div>
                 </div>
