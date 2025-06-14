@@ -39,6 +39,12 @@ use Carbon\Carbon;
                             <input type="time" class="attendance__time attendance__time--in" value="{{ old('clock_in_time', Carbon::parse($attendance->clock_in_time)->format('H:i')) }}" name="clock_in_time">
                             <span class="attendance__separator">〜</span>
                             <input type="time" class="attendance__time attendance__time--out" value="{{ old('clock_out_time', $attendance->clock_out_time ? Carbon::parse($attendance->clock_out_time)->format('H:i') : '') }}" name="clock_out_time">
+                            @error('clock_in_time')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
+                            @error('clock_out_time')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         @endif
                     </div>
                 </div>
@@ -61,6 +67,12 @@ use Carbon\Carbon;
                                 <input type="time" class="attendance__time attendance__time--in" value="{{ old('break_start_time.'.$index, Carbon::parse($break->break_start_time)->format('H:i')) }}" name="break_start_time[]">
                                 <span class="attendance__separator">〜</span>
                                 <input type="time" class="attendance__time attendance__time--out" value="{{ old('break_end_time.'.$index, $break->break_end_time ? Carbon::parse($break->break_end_time)->format('H:i') : '') }}" name="break_end_time[]">
+                                @error('break_start_time.' . $index)
+                                    <div class="error-message">{{ $message }}</div>
+                                @enderror
+                                @error('break_end_time.' . $index)
+                                    <div class="error-message">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     @endforeach
@@ -70,6 +82,12 @@ use Carbon\Carbon;
                             <input type="time" class="attendance__time attendance__time--in" name="break_start_time[]">
                             <span class="attendance__separator">〜</span>
                             <input type="time" class="attendance__time attendance__time--out" name="break_end_time[]">
+                            @error('break_start_time.' . count($attendance->breakTimes))
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
+                            @error('break_end_time.' . count($attendance->breakTimes))
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 @endif
@@ -80,6 +98,9 @@ use Carbon\Carbon;
                             {{ $stampCorrection->note }}
                         @else
                             <textarea class="attendance__textarea" name="note">{{ old('note', $attendance->note) }}</textarea>
+                            @error('note')
+                                <div class="error-message">{{ $message }}</div>
+                            @enderror
                         @endif
                     </div>
                 </div>
