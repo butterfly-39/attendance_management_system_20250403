@@ -35,12 +35,12 @@ class AttendanceController extends Controller
     public function show($id)
     {
         $attendance = Attendance::with(['user', 'breakTimes'])->findOrFail($id);
-        
+
         // 承認待ちの修正リクエストを取得
         $stampCorrection = StampCorrectionRequest::where('attendance_id', $id)
             ->where('status', 'pending')
             ->first();
-        
+
         $breakCorrections = [];
         if ($stampCorrection) {
             $breakCorrections = BreakCorrectionRequest::where('stamp_correction_id', $stampCorrection->id)->get();

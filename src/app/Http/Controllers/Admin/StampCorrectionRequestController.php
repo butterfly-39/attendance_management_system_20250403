@@ -83,7 +83,7 @@ class StampCorrectionRequestController extends Controller
             return redirect()
                 ->route('admin.stamp_correction_request.approve', ['attendance_correction_request' => $stampCorrectionRequest->id]);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
             return redirect()
                 ->route('admin.stamp_correction_request.approve', ['attendance_correction_request' => $stampCorrectionRequest->id]);

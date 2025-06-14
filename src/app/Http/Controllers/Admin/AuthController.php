@@ -53,10 +53,10 @@ class AuthController extends Controller
 
             return redirect()->intended(route('admin.attendance.list'));
 
-        } catch (ValidationException $e) {
+        } catch (ValidationException $exception) {
             return redirect()
                 ->back()
-                ->withErrors($e->errors())
+                ->withErrors($exception->errors())
                 ->withInput();
         }
     }
