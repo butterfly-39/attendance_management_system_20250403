@@ -38,12 +38,12 @@ class AttendanceController extends Controller
 
         // 承認待ちの修正リクエストを取得
         $stampCorrection = StampCorrectionRequest::where('attendance_id', $id)
-            ->where('status', 'pending')
+            ->where('status', '承認待ち')
             ->first();
 
         $breakCorrections = [];
         if ($stampCorrection) {
-            $breakCorrections = BreakCorrectionRequest::where('stamp_correction_id', $stampCorrection->id)->get();
+            $breakCorrections = BreakCorrectionRequest::where('stamp_correction_request_id', $stampCorrection->id)->get();
         }
 
         return view('admin.attendance.show', [
