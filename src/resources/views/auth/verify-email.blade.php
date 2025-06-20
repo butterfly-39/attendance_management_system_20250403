@@ -19,16 +19,16 @@
         @endif
 
         <div class="verify-email__actions">
-            <form method="POST" action="{{ route('verification.resend') }}">
+            <div class="verify-email__verify-btn-container">
+                <button type="button" class="verify-email__verify-btn" disabled>認証はこちらから</button>
+            </div>
+
+            <form method="POST" action="{{ route('verification.resend') }}" class="verify-email__resend-form">
                 @csrf
-                <button type="submit" class="verify-email__verify-btn btn">
-                    認証はこちらから
+                <button type="submit" class="verify-email__resend-link">
+                    認証メールを再送する
                 </button>
             </form>
-
-            <a href="{{ route('verification.resend') }}" class="verify-email__resend-btn btn">
-                認証メールを再送する
-            </a>
         </div>
     </div>
 </div>
