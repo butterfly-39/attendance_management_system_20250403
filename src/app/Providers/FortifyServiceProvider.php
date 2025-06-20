@@ -81,9 +81,9 @@ class FortifyServiceProvider extends ServiceProvider
             return new class implements RegisterResponse {
                 public function toResponse($request): RedirectResponse
                 {
-                    // 自動ログインを防ぎ、loginページへリダイレクト
-                    auth()->logout();
-                    return redirect('/login');
+                    // メール認証誘導画面にリダイレクト
+                    return redirect()->route('verification.notice')
+                        ->with('status', '会員登録が完了しました。メール認証を完了してください。');
                 }
             };
         });
