@@ -41,3 +41,9 @@ services:
             - mysql
         ports:
             - 8086:80
+
+    mailhog:
+        image: mailhog/mailhog:latest
+        ports:
+            - "1025:1025"  # SMTP
+            - "8025:8025"  # Web UI

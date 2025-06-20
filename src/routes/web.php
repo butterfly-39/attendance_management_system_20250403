@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampCorrectionRequestController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController;
@@ -59,13 +60,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // 一般ユーザー用ルート
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'email.verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
     Route::get('/attendance/list', [AttendanceController::class, 'list'])->name('attendance.list');
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'list'])->name('stamp-correction.list');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+});
+
+// メール認証関連のルート
+Route::middleware(['auth'])->group(function () {
+    Route::get('/email/verify', [EmailVerificationController::class, 'show'])
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->middleware(['signed'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+        ->middleware(['throttle:6,1'])
+        ->name('verification.resend');
 });
 
 
